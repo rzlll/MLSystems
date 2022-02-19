@@ -8,6 +8,8 @@ from Utils import metrics
 from train import *
 from prune import *
 import timeit
+from torch.utils.tensorboard import SummaryWriter
+
 
 def run(args):
     ## Random Seed and Device ##
@@ -32,6 +34,10 @@ def run(args):
     optimizer = opt_class(generator.parameters(model), lr=args.lr, weight_decay=args.weight_decay, **opt_kwargs)
     scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=args.lr_drops, gamma=args.lr_drop_rate)
 
+    ## Weight Histograms of each layer ## 
+    writer = SummaryWriter()
+    print(" ------------- model------------")
+    print(model)
 
     ## Pre-Train ##
     print('Pre-Train for {} epochs.'.format(args.pre_epochs))
