@@ -45,10 +45,12 @@ def run(args):
                args.compression_schedule, args.mask_scope, args.prune_epochs, args.reinitialize, args.prune_train_mode, args.shuffle, args.invert)
 
     
-    ## Post-Train ##
+    start = timeit.default_timer()
+    #The module that you try to calculate the running time
     print('Post-Training for {} epochs.'.format(args.post_epochs))
-    post_result = train_eval_loop(model, loss, optimizer, scheduler, train_loader, 
-                                  test_loader, device, args.post_epochs, args.verbose) 
+    post_result = train_eval_loop(model, loss, optimizer, scheduler, train_loader,                               test_loader, device, args.post_epochs, args.verbose) 
+    stop = timeit.default_timer()
+    print('------------------Time: ------------', stop - start) 
 
     ## Display Results ##
     frames = [pre_result.head(1), pre_result.tail(1), post_result.head(1), post_result.tail(1)]
